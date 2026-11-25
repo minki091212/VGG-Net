@@ -1,0 +1,11 @@
+{
+  "top1_err": 9.095541401273888,
+  "top5_err": 0.6114649681528639,
+  "checkpoint": "runs\\vgg16\\best.pth",
+  "epoch": 70,
+  "scales": [
+    256,
+    384,
+    512
+  ]
+}

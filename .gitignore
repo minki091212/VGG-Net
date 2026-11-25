@@ -1,2 +1,18 @@
-# Virtual environments
-.venv
+# 가상환경
+.venv/
+
+# 파이썬 캐시
+__pycache__/
+*.pyc
+
+# 데이터셋 (용량이 커서 git에 올리지 않음)
+data/
+
+# 학습 결과 (체크포인트, 로그)
+runs/
+*.pth
+
+# 기타
+.DS_Store
+.vscode/
+.idea/

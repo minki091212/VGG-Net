@@ -1,0 +1,41 @@
+# 구성 E (VGG19) + BatchNorm, Imagenette (10클래스) 학습용
+seed: 42
+output_dir: runs/vgg19
+
+model:
+  config: E            # A | B | C | D | E
+  num_classes: 10
+  batch_norm: true
+  head: fc             # fc = 논문 방식, gap = 가벼운 방식
+  dropout: 0.5
+
+data:
+  train_dir: data/imagenette2/train
+  val_dir: data/imagenette2/val
+  scale_min: 256       # 학습 스케일 S의 범위. 고정 S로 학습하려면 scale_max와 같은 값으로
+  scale_max: 512
+  crop_size: 224
+  val_scale: 384       # 학습 중 검증에 쓰는 Q (중앙 크롭)
+  color_shift: 0.1     # RGB 색상 변화 세기. 0이면 사용 안 함
+  # 논문은 평균 RGB만 뺐음. 그렇게 하려면 std를 [1.0, 1.0, 1.0]으로
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  num_workers: 8
+
+train:
+  batch_size: 64       # VGG19는 메모리를 더 쓰므로 부족하면 32로
+  epochs: 74
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 0.0005
+  lr_factor: 0.1       # 정체 시 학습률에 곱할 값
+  lr_patience: 5       # 검증 정확도가 몇 에폭 동안 오르지 않으면 줄일지
+  max_lr_drops: 3      # 이 횟수만큼 줄인 뒤 다시 정체되면 종료
+  amp: true
+  multi_gpu: true
+  log_interval: 20
+  resume: null         # 이어서 학습할 체크포인트 경로 (예: runs/vgg19/last.pth)
+
+eval:
+  scales: [256, 384, 512]   # 다중 스케일 평가의 Q 값
+  flip: true
